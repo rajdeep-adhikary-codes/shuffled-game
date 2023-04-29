@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="manifest" href="manifest.json">
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+
+	<!-- Popper JS -->
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Sweet Alert -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<script type="text/javascript" src="app.js"></script>
+
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+	<link rel="stylesheet" type="text/css" href="btn.css">
+
+	<link rel="stylesheet" type="text/css" href="confetti.css">
+
+	<link rel="stylesheet" type="text/css" href="app.css">
+
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.2.0/dist/confetti.browser.min.js"></script>
+
+	 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+	 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+	<title>Game</title>
+</head>
+<body>
+	<style type="text/css">
+
+		::-webkit-scrollbar {
+		  width: 3px;
+		}
+		  ::-webkit-scrollbar-track {
+		  background: #6d6d6d; 
+		}
+		  ::-webkit-scrollbar-thumb {
+		  	background: #888; 
+		    border-radius:10px;
+		}
+		::-webkit-scrollbar-thumb:hover {
+		  
+		  background: #555; 
+		} 
+
+		.col-my-4{
+			width: 30%;
+			margin: 2px;
+			transition: all .5s;
+			user-select: none;
+			cursor: pointer;
+		}
+		.tag-number{
+			position: absolute;
+			bottom: 5px;
+			right: 5px;
+			color: #fff;
+			border: 1px solid #e1e1e1;
+			padding: 0px 5px;
+			border-radius: 18px;
+			font-size: 12px;
+			background: #54545469;
+			font-weight: 700;
+		}
+		.steps-label{
+			font-size: 18px;
+		    font-weight: 600;
+		    color: #9b9b9b;
+		}
+		.col-my-4:hover{
+			filter: brightness(0.5);
+		}
+		.steps{
+			font-size: 3rem;
+		    font-weight: 700;
+		    color: #fff907;
+		}
+		.target{
+			font-size: 2.5rem;
+		    font-weight: 700;
+		    color: #07ff8e;
+		}
+		.head{
+			color: #fff;
+		}
+		.part-images{
+			pointer-events: none;
+		}
+		.footer{
+			margin-top: 70px;
+			font-size: 10px;
+		}
+	</style>
+	<div class="container-fluid">
+		<div class="row mt-2">
+			<div class="col-md-12">
+				<div class="w-100 text-center head" data-aos="slide-down"><h2>Rearrange the images in correct order</h2></div>
+			</div>
+			<div class="col-md-8"  data-aos="fade-right">
+				<label class="record-lbl">Your Previous Record : <span class="prev-record">0</span> Clicks</label>
+			</div>
+			<div class="col-md-4 text-right"  data-aos="fade-right">
+				<div class="container w-100 d-flex justify-content-end">
+				  <select class="select">
+				    <option value="" data-display-text="Mode">Default(Easy)</option>
+				    <option value="bananas">Standard</option>
+				    <option value="oranges">Hard</option>
+				  </select>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 mt-5" data-aos="slide-left">
+				<img src="" class="w-100" id="imagePreview">
+			</div>
+			<div class="col-md-4 mt-5">
+				<div class="row justify-content-center" id="content" data-aos="slide-up"></div>
+			</div>
+			<div class="col-md-4 mt-5" data-aos="slide-down">
+				<div class="w-100 text-center d-block "><span class=steps> 0</span><div id="hardTarget" class="d-none"><span style="font-size: 3.5rem; color: #fff;">/</span><span class="target">0</span></div><br><label class="steps-label">Clicks </label></div>
+				<div class="w-100 text-center d-block my-4"><button class="button" style="--clr:#39FF14" id="restart_this"><span>Restart with this image</span><i></i></button></div>
+				<div class="w-100 text-center d-block my-4"><button class="button" style="--clr:#0FF0FC" id="restart_other"><span>Restart with another image</span><i></i></button></div>
+				<div class="w-100 text-center d-block my-4"><button class="button" style="--clr:#fc0ff3; display: none;" id="start_new"><span>Start New</span><i></i></button></div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="w-100 text-right footer"><span class="text-muted">Version - 1.1.0</span></footer>
+
+	<div class="confetti" style="display: none;">
+	    <div class="confetti-piece"></div>
+	    <div class="confetti-piece"></div>
+	    <div class="confetti-piece"></div>
+	    <div class="confetti-piece"></div>
+	    <div class="confetti-piece"></div>
+	    <div class="confetti-piece"></div>
+	    <div class="confetti-piece"></div>
+	    <div class="confetti-piece"></div>
+	    <div class="confetti-piece"></div>
+	    <div class="confetti-piece"></div>
+	    <div class="confetti-piece"></div>
+	    <div class="confetti-piece"></div>
+	    <div class="confetti-piece"></div>
+	</div>
+
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({
+    	duration: 2000,
+    });
+  </script>
+</body>
+</html>
